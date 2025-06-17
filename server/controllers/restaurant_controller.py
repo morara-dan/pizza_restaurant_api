@@ -7,12 +7,18 @@ def get_restaurants():
 
 def get_restaurant_by_id(restaurant_id):
     restaurant = Restaurant.query.get(restaurant_id)
-
     if not restaurant:
-        # Restaurant not found
         return {"error": "Restaurant not found"}, 404
     else:
-        # Restaurant found, return its data including pizzas
         return restaurant.to_dict_with_pizzas(), 200
 
-# Future function for DELETE /restaurants/<id> will go here
+def delete_restaurant(restaurant_id):
+    restaurant = Restaurant.query.get(restaurant_id)
+    if not restaurant:
+        return {"error": "Restaurant not found"}, 404
+    else:
+        db.session.delete(restaurant) 
+        db.session.commit()          
+
+        
+        return {}, 204
